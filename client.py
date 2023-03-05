@@ -23,18 +23,6 @@ def main():
             print('\nInvalid input\n')
     return
 
-
-def createEntry():
-    topic = input('Topic: ')
-    noteName = input('Name of note: ')
-    noteText = input('Enter text: ')
-    time = datetime.datetime.now()
-    formattedTime = time.strftime('%d/%m/%Y - %H:%M:%S')
-    data = str(server.addnote(topic,noteName,noteText,formattedTime))
-    print(data)
-    return
-
-
 def printTopic():
     i = 1
 
@@ -48,18 +36,29 @@ def printTopic():
     xmlTree = ET.ElementTree(ET.fromstring(data))
     root = xmlTree.getroot()
 
-    print(f'Topic: {topic}\n')
+    print(f'\n/{topic}/')
     
     for note in root:
         noteText = note.find('text')
         noteTimestamp = note.find('timestamp')
 
-        print(f'\n*Note {i}*')
+        print(f'*Note {i}*')
         print('Name: '+note.get('name'))
         print('Note: '+noteText.text)
         print('Time added: '+noteTimestamp.text)
+        print()
         i += 1
     print()
     return
-    
+
+def createEntry():
+    topic = input('Topic: ')
+    noteName = input('Name of note: ')
+    noteText = input('Enter text: ')
+    time = datetime.datetime.now()
+    formattedTime = time.strftime('%d/%m/%Y - %H:%M:%S')
+    data = str(server.addnote(topic,noteName,noteText,formattedTime))
+    print(data)
+    return
+   
 main()
