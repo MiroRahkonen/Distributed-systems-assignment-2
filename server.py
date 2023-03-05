@@ -69,7 +69,7 @@ def addNote(inputTopic,inputNoteName,inputNoteText,time):
         noteText.text = inputNoteText
 
         noteTimestamp = SubElement(note,'timestamp')
-        noteTimestamp.text = formattedTime
+        noteTimestamp.text = time
         response = f"\nNew topic '{inputTopic}' and note created\n"
     
     ET.indent(xmlTree, space='\t',level=0)
