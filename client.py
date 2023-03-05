@@ -1,4 +1,5 @@
 import xmlrpc.client
+import datetime
 import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import tostring, SubElement, ElementTree
 
@@ -19,7 +20,7 @@ def main():
             print('Stopping...')
             break
         else:
-            print('Invalid input')
+            print('\nInvalid input\n')
     return
 
 
@@ -27,8 +28,10 @@ def createEntry():
     topic = input('Topic: ')
     noteName = input('Name of note: ')
     noteText = input('Enter text: ')
-    data = str(server.addnote(topic,noteName,noteText))
-    print('\n'+data)
+    time = datetime.datetime.now()
+    formattedTime = time.strftime('%d/%m/%Y - %H:%M:%S')
+    data = str(server.addnote(topic,noteName,noteText,formattedTime))
+    print(data)
     return
 
 
@@ -37,6 +40,11 @@ def printTopic():
 
     topic = input('Input topic: ')
     data = str(server.printTopic(topic))
+    if(data == '\nNo topic found\n'):
+        #No such topic exists, printing response
+        print(data)
+        return
+
     xmlTree = ET.ElementTree(ET.fromstring(data))
     root = xmlTree.getroot()
     
@@ -44,8 +52,7 @@ def printTopic():
         noteText = note.find('text')
         noteTimestamp = note.find('timestamp')
 
-        print()
-        print(f'*Note {i}*')
+        print(f'\n*Note {i}*')
         print('Name: '+note.get('name'))
         print('Note: '+noteText.text)
         print('Time added: '+noteTimestamp.text)
