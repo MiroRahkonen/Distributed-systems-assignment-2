@@ -8,14 +8,14 @@ server = xmlrpc.client.ServerProxy('http://localhost:3000')
 def main():
     while(1>0):
         print('Select one of the following options: ')
-        print('1) Add a new note')
-        print('2) Print topic')
+        print('1) Print topic')
+        print('2) Add new entry')
         print('0) Stop')
         option = int(input('Your choice: '))
         if(option == 1):
-            createNote()
-        elif(option == 2):
             printTopic()
+        elif(option == 2):
+            createEntry()
         elif(option == 0):
             print('Stopping...')
             break
@@ -23,7 +23,8 @@ def main():
             print('\nInvalid input\n')
     return
 
-def createNote():
+
+def createEntry():
     topic = input('Topic: ')
     noteName = input('Name of note: ')
     noteText = input('Enter text: ')
@@ -32,6 +33,7 @@ def createNote():
     data = str(server.addnote(topic,noteName,noteText,formattedTime))
     print(data)
     return
+
 
 def printTopic():
     i = 1
@@ -45,8 +47,6 @@ def printTopic():
 
     xmlTree = ET.ElementTree(ET.fromstring(data))
     root = xmlTree.getroot()
-
-    print(f'Topic: {topic}\n')
     
     for note in root:
         noteText = note.find('text')
@@ -59,5 +59,5 @@ def printTopic():
         i += 1
     print()
     return
-
+    
 main()
