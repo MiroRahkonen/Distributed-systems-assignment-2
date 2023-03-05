@@ -47,6 +47,8 @@ def printTopic():
 
     xmlTree = ET.ElementTree(ET.fromstring(data))
     root = xmlTree.getroot()
+
+    print(f'Topic: {topic}\n')
     
     for note in root:
         noteText = note.find('text')
